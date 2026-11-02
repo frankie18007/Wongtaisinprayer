@@ -3,15 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>香港赤松黃大仙祠 實景線上參拜與靈籤求福</title>
+<title>香港赤松黃大仙祠 線上參拜</title>
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest"></script>
-<!-- Font Awesome -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-<!-- Tone.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 <script>
 tailwind.config = {
 theme: {
@@ -20,126 +14,75 @@ colors: {
 temple: {
 gold: '#D4AF37',
 red: '#991B1B',
-darkred: '#4a0b0b',
-amber: '#F59E0B',
-pink: '#EC4899'
+darkred: '#3B0606',
+amber: '#F59E0B'
 }
 },
 fontFamily: {
-serifTC: ['"Noto Serif TC"', 'serif'],
-calligraphy: ['"Ma Shan Zheng"', 'cursive']
+calligraphy: ['PMingLiU', 'DFKai-SB', 'serif']
 }
 }
 }
 }
 </script>
+<!-- Lucide Icons & FontAwesome -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+<!-- Tone.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 <style>
 body {
-font-family: 'Noto Serif TC', serif;
 background-color: #0d0404;
-color: #fef2f2;
+color: #fff;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 touch-action: manipulation;
 }
-.real-scene-bg {
-transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
-}
 .text-shadow-gold {
-text-shadow: 0 0 10px rgba(212, 175, 55, 0.8), 0 0 20px rgba(255, 215, 0, 0.5);
+text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+}
+/* Animated Smoke for Incense */
+.incense-smoke {
+position: absolute;
+bottom: 60px;
+left: 50%;
+transform: translateX(-50%);
+width: 8px;
+height: 40px;
+background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent);
+border-radius: 50%;
+filter: blur(3px);
+animation: burnSmoke 2.5s infinite ease-out;
+pointer-events: none;
+}
+@keyframes burnSmoke {
+0% { transform: translateX(-50%) translateY(0) scaleX(1); opacity: 0.9; }
+50% { transform: translateX(-40%) translateY(-30px) scaleX(2.5); opacity: 0.6; }
+100% { transform: translateX(-60%) translateY(-70px) scaleX(4); opacity: 0; }
+}
+/* Shake animation for divination bucket */
+@keyframes shakeBucket {
+0% { transform: rotate(0deg); }
+20% { transform: rotate(-12deg) translateY(-5px); }
+40% { transform: rotate(12deg) translateY(-2px); }
+60% { transform: rotate(-10deg) translateY(-5px); }
+80% { transform: rotate(10deg) translateY(-2px); }
+100% { transform: rotate(0deg); }
 }
 .shake-animation {
-animation: shakeCylinder 0.22s infinite ease-in-out;
-}
-@keyframes shakeCylinder {
-0% { transform: rotate(0deg) translateY(0); }
-25% { transform: rotate(-8deg) translateY(-6px); }
-50% { transform: rotate(0deg) translateY(0); }
-75% { transform: rotate(8deg) translateY(-6px); }
-100% { transform: rotate(0deg) translateY(0); }
-}
-/* Incense Smoke Particles Canvas */
-#incense-canvas {
-position: absolute;
-pointer-events: none;
-z-index: 15;
-}
-::-webkit-scrollbar {
-width: 6px;
-}
-::-webkit-scrollbar-track {
-background: #2b0c0c;
-}
-::-webkit-scrollbar-thumb {
-background: #d4af37;
-border-radius: 3px;
+animation: shakeBucket 0.4s infinite;
 }
 </style>
 </head>
-<body class="relative w-screen h-screen overflow-hidden flex flex-col justify-between">
-<!-- REAL PHOTO BACKGROUND SCENES -->
-<div id="scene-container" class="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black">
-<!-- Scene 1: Main Temple (正殿 赤松黃大仙祠) -->
-<div id="scene-main" class="real-scene-bg absolute inset-0 w-full h-full bg-cover bg-center opacity-100 scale-100" 
-style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=1200&auto=format&fit=crop');">
-<!-- Simulated Main Shrine Front Image Header Overlay -->
-<div class="absolute inset-0 flex flex-col justify-center items-center pointer-events-none pb-20">
-<div class="border-4 border-temple-gold/80 bg-red-950/80 px-6 py-3 rounded-xl shadow-2xl text-center backdrop-blur-sm">
-<h2 class="text-2xl sm:text-4xl font-bold font-calligraphy text-temple-gold tracking-widest text-shadow-gold">赤松黃大仙祠</h2>
-<p class="text-xs text-yellow-200 mt-1">普濟勸善 • 有求必應</p>
-</div>
-</div>
-</div>
-<!-- Scene 2: Statue (從心苑 黃大仙開懷金身) -->
-<div id="scene-statue" class="real-scene-bg absolute inset-0 w-full h-full bg-cover bg-center opacity-0 scale-95 pointer-events-none" 
-style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1590076247563-aee9d29edf10?q=80&w=1200&auto=format&fit=crop');">
-<div class="absolute inset-0 flex flex-col justify-center items-center pointer-events-none pb-24">
-<div class="w-48 sm:w-64 h-72 sm:h-96 rounded-3xl border-4 border-temple-gold bg-amber-950/70 p-4 shadow-2xl flex flex-col items-center justify-center text-center backdrop-blur-sm">
-<div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-yellow-300 bg-amber-600 flex items-center justify-center shadow-inner mb-3">
-<i class="fa-solid fa-hands-praying text-yellow-100 text-4xl sm:text-5xl"></i>
-</div>
-<h3 class="text-xl font-bold font-calligraphy text-temple-gold">黃大仙開懷金身聖像</h3>
-<p class="text-xs text-yellow-100 mt-2">「從心苑」金光普照</p>
-</div>
-</div>
-</div>
-<!-- Scene 3: Yue Lao (月老殿 殿前金童繩繫三生約) -->
-<div id="scene-yuelao" class="real-scene-bg absolute inset-0 w-full h-full bg-cover bg-center opacity-0 scale-95 pointer-events-none" 
-style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop');">
-<div class="absolute inset-0 flex flex-col justify-center items-center pointer-events-none pb-24">
-<div class="w-56 sm:w-72 h-72 sm:h-96 rounded-3xl border-4 border-pink-400 bg-red-950/80 p-4 shadow-2xl flex flex-col items-center justify-center text-center backdrop-blur-sm">
-<i class="fa-solid fa-heart text-pink-400 text-5xl mb-3 animate-pulse"></i>
-<h3 class="text-xl font-bold font-calligraphy text-pink-200">月老尊神</h3>
-<p class="text-xs text-pink-100 mt-2 font-serifTC">殿前金童繩繫三生約</p>
-<div class="mt-4 px-3 py-1 bg-pink-600/60 border border-pink-300 rounded-full text-[11px] text-white">
-千里姻緣一線牽
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Smoke Effect Overlay Canvas for Main Incense Burner -->
-<canvas id="incense-canvas" class="w-full h-full inset-0"></canvas>
-<!-- OFFERINGS OVERLAY LAYER -->
-<div id="offerings-display" class="absolute bottom-40 left-1/2 transform -translate-x-1/2 z-10 flex space-x-6 pointer-events-none">
-<div id="offering-fruit" class="hidden flex-col items-center animate-bounce">
-<span class="text-4xl">🍊</span>
-<span class="text-[10px] bg-black/80 px-2 py-0.5 rounded border border-temple-gold text-yellow-200">吉利鮮果</span>
-</div>
-<div id="offering-ingot" class="hidden flex-col items-center animate-bounce" style="animation-delay: 0.15s;">
-<span class="text-4xl">🪙</span>
-<span class="text-[10px] bg-black/80 px-2 py-0.5 rounded border border-temple-gold text-yellow-200">金元寶</span>
-</div>
-</div>
-<!-- UI LAYER OVERLAY -->
-<div class="relative z-20 w-full h-full flex flex-col justify-between pointer-events-none">
-<!-- Header -->
-<header class="w-full bg-black/85 backdrop-blur-md border-b border-temple-gold/40 px-4 py-2.5 flex justify-between items-center pointer-events-auto shadow-2xl">
+<body class="w-screen h-screen overflow-hidden flex flex-col justify-between bg-gradient-to-b from-black via-red-950 to-black">
+<!-- HEADER / NAVIGATION -->
+<header class="w-full bg-black/90 border-b border-temple-gold/40 px-4 py-3 flex justify-between items-center z-30 shadow-xl">
 <div class="flex items-center space-x-3">
-<div class="w-10 h-10 rounded-full border-2 border-temple-gold overflow-hidden shadow-inner ring-2 ring-yellow-500/50 bg-amber-950 flex items-center justify-center">
-<span class="text-temple-gold font-bold text-lg font-calligraphy">仙</span>
+<div class="w-10 h-10 rounded-full border-2 border-temple-gold bg-red-950 flex items-center justify-center shadow-lg ring-2 ring-yellow-500/30">
+<span class="text-temple-gold font-bold text-xl font-calligraphy">仙</span>
 </div>
 <div>
-<h1 class="text-lg sm:text-xl font-bold font-calligraphy text-temple-gold tracking-wider text-shadow-gold">赤松黃大仙祠 線上參拜</h1>
-<p id="current-location-tag" class="text-[11px] text-yellow-200">當前位置：正殿 赤松黃大仙祠</p>
+<h1 class="text-lg font-bold font-calligraphy text-temple-gold tracking-wider text-shadow-gold">赤松黃大仙祠 線上參拜</h1>
+<p id="location-tag" class="text-[11px] text-yellow-200/80">嗇色園黃大仙祠 • 有求必應</p>
 </div>
 </div>
 <div class="flex items-center space-x-2">
@@ -152,263 +95,249 @@ style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,
 </button>
 </div>
 </header>
-<!-- Scene Selector Tabs -->
-<div class="w-full pointer-events-auto px-4 py-2 bg-black/75 backdrop-blur-md border-b border-temple-gold/30 flex justify-center space-x-2 overflow-x-auto">
-<button onclick="switchRealScene('main')" id="nav-btn-main" class="px-3 py-1.5 rounded-xl border border-temple-gold bg-temple-gold text-red-950 font-bold text-xs flex items-center space-x-1 shadow transition">
+<!-- SCENE SWITCH TABS -->
+<nav class="w-full bg-black/80 border-b border-temple-gold/30 px-3 py-2 flex justify-center space-x-2 z-20">
+<button onclick="switchScene('main')" id="tab-main" class="px-3 py-1.5 rounded-xl border border-temple-gold bg-temple-gold text-red-950 font-bold text-xs flex items-center space-x-1 shadow transition">
 <i class="fa-solid fa-gopuram"></i>
-<span>1. 正殿 (求籤上香)</span>
+<span>1. 赤松正殿</span>
 </button>
-<button onclick="switchRealScene('statue')" id="nav-btn-statue" class="px-3 py-1.5 rounded-xl border border-temple-gold/50 bg-black/60 text-yellow-200 font-bold text-xs flex items-center space-x-1 shadow hover:border-temple-gold transition">
+<button onclick="switchScene('statue')" id="tab-statue" class="px-3 py-1.5 rounded-xl border border-temple-gold/40 bg-black/60 text-yellow-200 font-bold text-xs flex items-center space-x-1 shadow hover:border-temple-gold transition">
 <i class="fa-solid fa-hands-praying"></i>
-<span>2. 從心苑 (開懷金像)</span>
+<span>2. 從心苑金像</span>
 </button>
-<button onclick="switchRealScene('yueLao')" id="nav-btn-yuelao" class="px-3 py-1.5 rounded-xl border border-temple-gold/50 bg-black/60 text-pink-300 font-bold text-xs flex items-center space-x-1 shadow hover:border-pink-400 transition">
+<button onclick="switchScene('yueLao')" id="tab-yuelao" class="px-3 py-1.5 rounded-xl border border-temple-gold/40 bg-black/60 text-pink-300 font-bold text-xs flex items-center space-x-1 shadow hover:border-pink-400 transition">
 <i class="fa-solid fa-heart"></i>
-<span>3. 月老殿 (繫紅線)</span>
+<span>3. 月老殿</span>
 </button>
+</nav>
+<!-- MAIN DISPLAY AREA (SHRINE DISPLAY WITH USER PHOTO) -->
+<main class="flex-1 relative flex flex-col items-center justify-between p-4 overflow-hidden z-10">
+<!-- Background Temple Card using the specific user photo -->
+<div id="shrine-card" class="relative w-full max-w-md flex-1 border-2 border-temple-gold/70 rounded-3xl p-4 flex flex-col items-center justify-between shadow-2xl overflow-hidden my-2 bg-cover bg-center bg-no-repeat transition-all duration-500" 
+style="background-image: linear-gradient(to bottom, rgba(13, 4, 4, 0.45), rgba(13, 4, 4, 0.75)), url('https://img.news.cn/2023-09/29/104074122_16959586149411n.jpg');">
+<!-- Shrine Header / Plaque -->
+<div class="text-center z-10 bg-black/75 border border-temple-gold/60 rounded-xl px-6 py-2 shadow-lg backdrop-blur-sm">
+<h2 id="shrine-title" class="text-xl font-bold font-calligraphy text-temple-gold tracking-widest text-shadow-gold">赤松黃大仙祠 正殿</h2>
+<p id="shrine-subtitle" class="text-[10px] text-yellow-100/80 tracking-widest mt-0.5">普濟勸善 • 廣施甘霖</p>
+</div>
+<!-- Central Deity Display Area -->
+<div class="relative my-auto flex flex-col items-center justify-center">
+<!-- Aura Circle -->
+<div class="absolute w-44 h-44 rounded-full bg-yellow-500/20 blur-xl animate-pulse"></div>
+<div class="relative w-32 h-32 rounded-full border-4 border-temple-gold bg-gradient-to-b from-amber-600/90 to-red-950/90 p-3 shadow-2xl flex items-center justify-center ring-4 ring-yellow-500/30 backdrop-blur-md">
+<i id="deity-icon" class="fa-solid fa-gopuram text-5xl text-temple-gold drop-shadow-md"></i>
+</div>
+<!-- Incense Smoke Effect (Hidden by default) -->
+<div id="incense-smoke-container" class="hidden">
+<div class="incense-smoke"></div>
+<div class="incense-smoke" style="animation-delay: 0.8s;"></div>
+</div>
+</div>
+<!-- Offerings Display Area on Altar -->
+<div class="w-full bg-black/80 border border-temple-gold/50 rounded-xl p-2.5 flex justify-around items-center z-10 backdrop-blur-md shadow-2xl">
+<div class="text-center">
+<span class="text-xs text-yellow-200/80 block mb-1">鮮果供奉</span>
+<span id="fruit-count" class="text-sm font-bold text-temple-gold">鮮果 0 份</span>
+</div>
+<div class="w-px h-8 bg-temple-gold/30"></div>
+<div class="text-center">
+<span class="text-xs text-yellow-200/80 block mb-1">香火狀況</span>
+<span id="incense-status" class="text-sm font-bold text-yellow-400">尚未上香</span>
+</div>
+<div class="w-px h-8 bg-temple-gold/30"></div>
+<div class="text-center">
+<span class="text-xs text-yellow-200/80 block mb-1">金元寶供奉</span>
+<span id="ingot-count" class="text-sm font-bold text-temple-gold">元寶 0 份</span>
+</div>
+</div>
 </div>
 <!-- Master Dialogue Box -->
-<div class="flex-1 flex flex-col items-center justify-start pt-4 px-4 pointer-events-none">
-<div id="speech-bubble" class="pointer-events-auto max-w-lg w-full bg-black/90 backdrop-blur-md border-2 border-temple-gold p-4 rounded-2xl shadow-2xl text-center relative transition-all duration-300">
-<div class="flex items-center justify-center space-x-2 mb-1">
-<span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-<span id="speaker-title" class="text-xs text-temple-gold font-bold tracking-widest">赤松黃大仙尊者 顯聖法音</span>
+<div class="w-full max-w-md z-20 my-1">
+<div class="bg-black/90 border-2 border-temple-gold p-3 rounded-2xl shadow-xl text-center relative backdrop-blur-md">
+<div class="flex items-center justify-center space-x-1.5 mb-1">
+<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+<span id="speaker-name" class="text-[11px] text-temple-gold font-bold tracking-wider">赤松黃大仙尊者 顯聖法音</span>
 </div>
-<p id="master-text" class="text-xs sm:text-sm text-yellow-100 font-medium leading-relaxed font-serifTC">
-「信士善信，歡迎來到香港赤松黃大仙祠正殿。點擊下方按鈕可誠心上香、供奉吉果金元寶或搖筒求籤問卜。」
+<p id="master-speech" class="text-xs sm:text-sm text-yellow-100 font-medium leading-relaxed">
+「信士善信，歡迎來到黃大仙正殿。誠心所致，金石為開。可在此點香、供奉或搖筒求籤。」
 </p>
 </div>
 </div>
-<!-- Action Controls -->
-<div class="w-full p-4 pointer-events-auto flex flex-col items-center space-y-3 bg-gradient-to-t from-black via-black/95 to-transparent pb-6">
-<!-- Scene 1 Actions -->
-<div id="actions-main" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-xl">
-<button onclick="triggerIncenseSmoke()" class="px-3 py-2.5 bg-gradient-to-r from-red-950 to-temple-red border border-temple-gold rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-lg group">
-<i data-lucide="flame" class="w-5 h-5 text-temple-gold group-hover:scale-110 transition"></i>
-<span class="text-xs font-bold text-yellow-100 mt-1">正殿誠心上香</span>
+</main>
+<!-- ACTION BUTTONS & PRAYER INPUT -->
+<footer class="w-full bg-black/95 border-t border-temple-gold/40 p-4 z-30 flex flex-col items-center space-y-3 shadow-2xl">
+<!-- Main Actions (Scene 1) -->
+<div id="panel-main" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-md">
+<button onclick="burnIncenseAction()" class="px-3 py-2.5 bg-gradient-to-r from-red-950 to-temple-red border border-temple-gold rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-lg">
+<i data-lucide="flame" class="w-5 h-5 text-temple-gold"></i>
+<span class="text-xs font-bold text-yellow-100 mt-1">誠心點香</span>
 </button>
-<button onclick="toggleOffering('fruit')" class="px-3 py-2.5 bg-gradient-to-r from-red-950 to-temple-red border border-temple-gold rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-lg group">
-<i data-lucide="apple" class="w-5 h-5 text-temple-gold group-hover:scale-110 transition"></i>
-<span class="text-xs font-bold text-yellow-100 mt-1">供奉吉利鮮果</span>
+<button onclick="offerFruitAction()" class="px-3 py-2.5 bg-gradient-to-r from-red-950 to-temple-red border border-temple-gold rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-lg">
+<i data-lucide="apple" class="w-5 h-5 text-temple-gold"></i>
+<span class="text-xs font-bold text-yellow-100 mt-1">奉獻鮮果</span>
 </button>
-<button onclick="toggleOffering('ingot')" class="px-3 py-2.5 bg-gradient-to-r from-red-950 to-temple-red border border-temple-gold rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-lg group">
-<i data-lucide="coins" class="w-5 h-5 text-temple-gold group-hover:scale-110 transition"></i>
-<span class="text-xs font-bold text-yellow-100 mt-1">供奉金元寶</span>
+<button onclick="offerIngotAction()" class="px-3 py-2.5 bg-gradient-to-r from-red-950 to-temple-red border border-temple-gold rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-lg">
+<i data-lucide="coins" class="w-5 h-5 text-temple-gold"></i>
+<span class="text-xs font-bold text-yellow-100 mt-1">奉獻元寶</span>
 </button>
-<button onclick="openDrawModal()" class="px-3 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-600 border-2 border-yellow-200 rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-xl group">
-<i data-lucide="sparkles" class="w-5 h-5 text-white group-hover:rotate-12 transition"></i>
+<button onclick="openDrawModal()" class="px-3 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-600 border-2 border-yellow-200 rounded-xl hover:brightness-125 active:scale-95 transition flex flex-col items-center shadow-xl">
+<i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
 <span class="text-xs font-bold text-white mt-1">搖筒求靈籤</span>
 </button>
 </div>
-<!-- Scene 2 Actions -->
-<div id="actions-statue" class="hidden grid-cols-2 gap-3 w-full max-w-md">
-<button onclick="touchGoldenStatue()" class="px-4 py-3 bg-gradient-to-r from-amber-700 to-yellow-600 border border-yellow-200 rounded-xl hover:brightness-125 transition flex items-center justify-center space-x-2 shadow-lg">
-<i class="fa-solid fa-hand-sparkles text-yellow-200 text-lg"></i>
+<!-- Statue Actions (Scene 2) -->
+<div id="panel-statue" class="hidden grid-cols-2 gap-3 w-full max-w-md">
+<button onclick="touchGoldenStatue()" class="px-4 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 border border-yellow-200 rounded-xl hover:brightness-125 transition flex items-center justify-center space-x-2 shadow-lg">
+<i class="fa-solid fa-hand-sparkles text-yellow-100 text-base"></i>
 <span class="text-xs font-bold text-white">瞻仰金身 • 沾吉氣</span>
 </button>
-<button onclick="switchRealScene('main')" class="px-4 py-3 bg-black/80 border border-temple-gold rounded-xl hover:bg-temple-gold/20 transition flex items-center justify-center space-x-2 shadow-lg text-temple-gold">
-<i data-lucide="arrow-left" class="w-4 h-4"></i>
-<span class="text-xs font-bold">返回正殿大門</span>
-</button>
-</div>
-<!-- Scene 3 Actions -->
-<div id="actions-yuelao" class="hidden grid-cols-2 gap-3 w-full max-w-md">
-<button onclick="tieRedThread()" class="px-4 py-3 bg-gradient-to-r from-pink-700 to-red-600 border border-pink-200 rounded-xl hover:brightness-125 transition flex items-center justify-center space-x-2 shadow-lg">
-<i class="fa-solid fa-heart text-pink-200 text-lg"></i>
-<span class="text-xs font-bold text-white">月老殿 • 誠心繫紅線</span>
-</button>
-<button onclick="switchRealScene('main')" class="px-4 py-3 bg-black/80 border border-temple-gold rounded-xl hover:bg-temple-gold/20 transition flex items-center justify-center space-x-2 shadow-lg text-temple-gold">
+<button onclick="switchScene('main')" class="px-4 py-3 bg-black/80 border border-temple-gold rounded-xl text-temple-gold hover:bg-temple-gold/20 transition flex items-center justify-center space-x-2">
 <i data-lucide="arrow-left" class="w-4 h-4"></i>
 <span class="text-xs font-bold">返回正殿</span>
 </button>
 </div>
-<!-- AI Prayer Input -->
-<div class="w-full max-w-xl bg-black/85 border border-temple-gold/60 rounded-xl p-2 flex items-center space-x-2 shadow-2xl">
-<input type="text" id="user-prayer-input" placeholder="向神明祈願 (如：求姻緣、事業順利、身體健康)..." class="flex-1 bg-transparent text-xs sm:text-sm text-yellow-100 placeholder-yellow-200/40 focus:outline-none px-3">
-<button onclick="sendPrayerToMaster()" class="px-4 py-2 bg-gradient-to-r from-temple-gold to-yellow-500 text-red-950 font-bold text-xs rounded-lg hover:brightness-110 active:scale-95 transition flex items-center space-x-1 shadow-md">
-<i data-lucide="send" class="w-4 h-4"></i>
+<!-- Yue Lao Actions (Scene 3) -->
+<div id="panel-yuelao" class="hidden grid-cols-2 gap-3 w-full max-w-md">
+<button onclick="tieRedThread()" class="px-4 py-3 bg-gradient-to-r from-pink-700 to-red-600 border border-pink-200 rounded-xl hover:brightness-125 transition flex items-center justify-center space-x-2 shadow-lg">
+<i class="fa-solid fa-heart text-pink-100 text-base"></i>
+<span class="text-xs font-bold text-white">月老殿 • 誠心繫紅線</span>
+</button>
+<button onclick="switchScene('main')" class="px-4 py-3 bg-black/80 border border-temple-gold rounded-xl text-temple-gold hover:bg-temple-gold/20 transition flex items-center justify-center space-x-2">
+<i data-lucide="arrow-left" class="w-4 h-4"></i>
+<span class="text-xs font-bold">返回正殿</span>
+</button>
+</div>
+<!-- AI Prayer Input Form -->
+<div class="w-full max-w-md bg-black/90 border border-temple-gold/60 rounded-xl p-1.5 flex items-center space-x-2 shadow-inner">
+<input type="text" id="user-prayer-input" placeholder="向神明許願 (如：求事業、姻緣、健康)..." class="flex-1 bg-transparent text-xs text-yellow-100 placeholder-yellow-200/40 focus:outline-none px-3">
+<button onclick="sendPrayerToMaster()" class="px-3.5 py-2 bg-gradient-to-r from-temple-gold to-yellow-500 text-red-950 font-bold text-xs rounded-lg hover:brightness-110 active:scale-95 transition flex items-center space-x-1 shadow">
+<i data-lucide="send" class="w-3.5 h-3.5"></i>
 <span>誠心祈願</span>
 </button>
 </div>
-</div>
-</div>
-<!-- Divination Modal -->
+</footer>
+<!-- DIVINATION STICK MODAL -->
 <div id="draw-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-<div class="bg-gradient-to-b from-temple-darkred to-black border-2 border-temple-gold rounded-2xl max-w-lg w-full p-6 text-center relative shadow-2xl flex flex-col items-center">
-<button onclick="closeDrawModal()" class="absolute top-4 right-4 text-yellow-200/60 hover:text-yellow-100">
+<div class="bg-gradient-to-b from-red-950 to-black border-2 border-temple-gold w-full max-w-sm rounded-3xl p-5 relative text-center shadow-2xl space-y-4">
+<button onclick="closeDrawModal()" class="absolute top-4 right-4 text-yellow-200/60 hover:text-yellow-200">
 <i data-lucide="x" class="w-6 h-6"></i>
 </button>
-<h2 class="text-2xl font-bold font-calligraphy text-temple-gold mb-1">赤松黃大仙靈籤問卜</h2>
-<p class="text-xs text-yellow-200/70 mb-4">請默念姓名、生辰八字及所求之事，隨後點擊搖動籤筒</p>
-<div id="cylinder-box" class="w-32 h-48 bg-gradient-to-b from-amber-800 to-amber-950 border-4 border-temple-gold rounded-b-3xl rounded-t-lg relative my-4 flex justify-center items-start pt-2 shadow-2xl cursor-pointer" onclick="shakeDivinationStick()">
-<div id="bamboo-sticks" class="flex space-x-1 justify-center transition-transform">
-<div class="w-2 h-36 bg-amber-200 rounded-t border border-amber-800 text-[9px] text-amber-900 font-bold writing-vertical pt-1">黃大仙</div>
-<div class="w-2 h-40 bg-amber-300 rounded-t border border-amber-800 text-[9px] text-amber-900 font-bold writing-vertical pt-1">第一籤</div>
-<div class="w-2 h-38 bg-amber-200 rounded-t border border-amber-800 text-[9px] text-amber-900 font-bold writing-vertical pt-1">大吉</div>
-<div class="w-2 h-42 bg-amber-100 rounded-t border border-amber-800 text-[9px] text-amber-900 font-bold writing-vertical pt-1">赤松仙</div>
-<div class="w-2 h-36 bg-amber-300 rounded-t border border-amber-800 text-[9px] text-amber-900 font-bold writing-vertical pt-1">靈籤</div>
+<h3 class="text-lg font-bold font-calligraphy text-temple-gold">黃大仙靈籤 搖筒求問</h3>
+<div id="cylinder-box" class="w-24 h-36 bg-amber-900 border-4 border-temple-gold rounded-b-3xl mx-auto flex flex-col justify-end p-2 shadow-inner">
+<div class="w-3 h-20 bg-yellow-200 mx-auto rounded-t-sm shadow-md border border-yellow-600 transform -rotate-6"></div>
 </div>
-</div>
-<button id="shake-btn" onclick="shakeDivinationStick()" class="w-full py-3 bg-gradient-to-r from-temple-gold to-yellow-500 text-red-950 font-bold text-sm rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center space-x-2">
-<i data-lucide="hand" class="w-5 h-5"></i>
-<span>誠心搖動籤筒</span>
+<button id="shake-btn" onclick="shakeDivinationStick()" class="w-full py-3 bg-gradient-to-r from-temple-gold to-yellow-500 text-red-950 font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition">
+誠心搖動籤筒
 </button>
-<div id="lot-result-card" class="mt-4 p-4 bg-black/90 border border-temple-gold rounded-xl w-full hidden text-left space-y-3 shadow-xl">
-<div class="flex justify-between items-center border-b border-temple-gold/40 pb-2">
-<div>
-<span id="lot-number" class="text-xl font-bold text-temple-gold font-serifTC"></span>
-<span id="lot-type" class="ml-2 px-2 py-0.5 rounded text-xs font-bold"></span>
+<!-- Result Card -->
+<div id="lot-result-card" class="hidden space-y-3 bg-black/70 border border-temple-gold/50 p-4 rounded-xl">
+<div class="flex justify-center items-center">
+<span id="lot-number" class="text-base font-bold text-temple-gold">--</span>
+<span id="lot-type" class="ml-2 px-2 py-0.5 rounded text-xs font-bold">--</span>
 </div>
-<button onclick="speakLotInterpretation()" class="px-2.5 py-1 bg-temple-gold/20 border border-temple-gold text-temple-gold rounded text-xs flex items-center space-x-1">
+<p id="lot-poem" class="text-xs text-yellow-100 font-serif font-bold">--</p>
+<p id="lot-meaning" class="text-xs text-yellow-200/80 leading-relaxed text-left">--</p>
+<div class="flex space-x-2 pt-2">
+<button onclick="speakLotInterpretation()" class="flex-1 py-2 bg-temple-gold/20 border border-temple-gold text-temple-gold rounded-lg text-xs font-bold flex items-center justify-center space-x-1">
 <i data-lucide="volume-2" class="w-4 h-4"></i>
-<span>聽大仙解籤</span>
+<span>語音讀解</span>
 </button>
-</div>
-<div>
-<h4 class="text-xs text-yellow-200/60 font-bold">籤詩：</h4>
-<p id="lot-poem" class="text-sm font-serifTC text-yellow-100 italic mt-1 leading-relaxed"></p>
-</div>
-<div>
-<h4 class="text-xs text-yellow-200/60 font-bold">大仙解曰：</h4>
-<p id="lot-meaning" class="text-xs text-yellow-200/90 leading-relaxed mt-1"></p>
-</div>
-<div class="pt-2 flex justify-end">
-<button onclick="savePrayerRecord()" class="px-3 py-1.5 bg-temple-red border border-temple-gold text-temple-gold rounded-lg text-xs font-bold hover:bg-red-800 transition">
-保存至參拜紀錄
+<button onclick="savePrayerRecord()" class="flex-1 py-2 bg-gradient-to-r from-temple-gold to-yellow-500 text-red-950 font-bold rounded-lg text-xs">
+保存此籤
 </button>
 </div>
 </div>
 </div>
 </div>
-<!-- History Modal -->
+<!-- HISTORY MODAL -->
 <div id="history-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-<div class="bg-gradient-to-b from-temple-darkred to-black border-2 border-temple-gold rounded-2xl max-w-md w-full p-6 relative shadow-2xl flex flex-col max-h-[80vh]">
-<button onclick="closeHistoryModal()" class="absolute top-4 right-4 text-yellow-200/60 hover:text-yellow-100">
+<div class="bg-gradient-to-b from-red-950 to-black border-2 border-temple-gold w-full max-w-sm rounded-3xl p-5 relative text-center shadow-2xl space-y-4 max-h-[80vh] flex flex-col">
+<button onclick="closeHistoryModal()" class="absolute top-4 right-4 text-yellow-200/60 hover:text-yellow-200">
 <i data-lucide="x" class="w-6 h-6"></i>
 </button>
-<h3 class="text-xl font-bold text-temple-gold font-calligraphy mb-3 flex items-center space-x-2">
-<i data-lucide="bookmark-check" class="w-5 h-5"></i>
-<span>個人參拜與靈籤紀錄</span>
-</h3>
-<div id="history-list" class="flex-1 overflow-y-auto space-y-3 pr-1 text-xs">
+<h3 class="text-lg font-bold font-calligraphy text-temple-gold">信士參拜與求籤紀錄</h3>
+<div id="history-list" class="flex-1 overflow-y-auto space-y-2.5 text-left pr-1"></div>
 </div>
 </div>
-</div>
-<!-- APP ENGINE SCRIPT -->
+<!-- APP SCRIPT LOGIC -->
 <script>
 lucide.createIcons();
 let isSoundOn = true;
+let fruitCount = 0;
+let ingotCount = 0;
 let currentLotResult = null;
 let prayerRecords = JSON.parse(localStorage.getItem('wongtaisin_prayers') || '[]');
-// Smoke Canvas Setup
-const canvas = document.getElementById('incense-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-function resizeCanvas() {
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-function switchRealScene(sceneKey) {
+function switchScene(sceneKey) {
 playChime();
-const sMain = document.getElementById('scene-main');
-const sStatue = document.getElementById('scene-statue');
-const sYueLao = document.getElementById('scene-yuelao');
-const aMain = document.getElementById('actions-main');
-const aStatue = document.getElementById('actions-statue');
-const aYueLao = document.getElementById('actions-yuelao');
-// Reset scene opacity
-[sMain, sStatue, sYueLao].forEach(s => {
-s.style.opacity = '0';
-s.style.transform = 'scale(0.95)';
-s.style.pointerEvents = 'none';
-});
-[aMain, aStatue, aYueLao].forEach(a => a.classList.add('hidden'));
-let locationTitle = "";
-let speechText = "";
-let speakerName = "赤松黃大仙尊者 顯聖法音";
+const tabMain = document.getElementById('tab-main');
+const tabStatue = document.getElementById('tab-statue');
+const tabYuelao = document.getElementById('tab-yuelao');
+const panelMain = document.getElementById('panel-main');
+const panelStatue = document.getElementById('panel-statue');
+const panelYuelao = document.getElementById('panel-yuelao');
+const shrineCard = document.getElementById('shrine-card');
+const title = document.getElementById('shrine-title');
+const subtitle = document.getElementById('shrine-subtitle');
+const icon = document.getElementById('deity-icon');
+const speaker = document.getElementById('speaker-name');
+[panelMain, panelStatue, panelYuelao].forEach(p => p.classList.add('hidden'));
 if (sceneKey === 'main') {
-sMain.style.opacity = '1';
-sMain.style.transform = 'scale(1)';
-aMain.classList.remove('hidden');
-aMain.classList.add('grid');
-locationTitle = "當前位置：正殿 赤松黃大仙祠";
-speechText = "「歡迎來到香港赤松黃大仙祠正殿。信士可在此誠心上香、供奉吉果金元寶或搖筒求靈籤。」";
+panelMain.classList.remove('hidden');
+shrineCard.style.backgroundImage = "linear-gradient(to bottom, rgba(13, 4, 4, 0.45), rgba(13, 4, 4, 0.75)), url('https://img.news.cn/2023-09/29/104074122_16959586149411n.jpg')";
+title.innerText = "赤松黃大仙祠 正殿";
+subtitle.innerText = "普濟勸善 • 廣施甘霖";
+icon.className = "fa-solid fa-gopuram text-5xl text-temple-gold";
+speaker.innerText = "赤松黃大仙尊者 顯聖法音";
+setMasterSpeech("「歡迎回到黃大仙正殿。誠心所致，金石為開。可在此點香、供奉或搖筒求籤。」");
 } else if (sceneKey === 'statue') {
-sStatue.style.opacity = '1';
-sStatue.style.transform = 'scale(1)';
-aStatue.classList.remove('hidden');
-aStatue.classList.add('grid');
-locationTitle = "當前位置：從心苑 黃大仙開懷金身聖像";
-speechText = "「此乃從心苑黃大仙開懷金身聖像。大仙慈悲開懷，普濟勸善。點擊『瞻仰金身』可沾納吉氣平安！」";
+panelStatue.classList.remove('hidden');
+panelStatue.classList.add('grid');
+shrineCard.style.backgroundImage = "linear-gradient(to bottom, rgba(13, 4, 4, 0.4), rgba(13, 4, 4, 0.8)), url('https://img.news.cn/2023-09/29/104074122_16959586149411n.jpg')";
+title.innerText = "從心苑 黃大仙金身";
+subtitle.innerText = "金光護體 • 開懷慈悲";
+icon.className = "fa-solid fa-hands-praying text-5xl text-yellow-300";
+speaker.innerText = "黃大仙開懷金身 聖音";
+setMasterSpeech("「此乃從心苑黃大仙開懷金身聖像。大仙慈悲開懷，點擊『瞻仰金身』可沾納吉氣平安！」");
 } else if (sceneKey === 'yueLao') {
-sYueLao.style.opacity = '1';
-sYueLao.style.transform = 'scale(1)';
-aYueLao.classList.remove('hidden');
-aYueLao.classList.add('grid');
-locationTitle = "當前位置：月老殿 (殿前金童繩繫三生約)";
-speakerName = "月老尊神 慈悲指引";
-speechText = "「殿前金童繩繫三生約。誠心在月老尊神前牽繫紅線，祈求千里姻緣一線牽、合家美滿！」";
+panelYuelao.classList.remove('hidden');
+panelYuelao.classList.add('grid');
+shrineCard.style.backgroundImage = "linear-gradient(to bottom, rgba(13, 4, 4, 0.5), rgba(13, 4, 4, 0.85)), url('https://img.news.cn/2023-09/29/104074122_16959586149411n.jpg')";
+title.innerText = "月老殿 姻緣神案";
+subtitle.innerText = "殿前金童繩繫三生約";
+icon.className = "fa-solid fa-heart text-5xl text-pink-400";
+speaker.innerText = "月老尊神 慈悲指引";
+setMasterSpeech("「殿前金童繩繫三生約。誠心在月老尊神前牽繫紅線，祈求千里姻緣一線牽！」");
 }
-document.getElementById('current-location-tag').innerText = locationTitle;
-document.getElementById('speaker-title').innerText = speakerName;
-document.getElementById('master-text').innerText = speechText;
 }
-// Incense Smoke Particle Generator
-function triggerIncenseSmoke() {
+function burnIncenseAction() {
 playWoodenFishSound();
-const startX = window.innerWidth / 2;
-const startY = window.innerHeight * 0.7;
-for (let i = 0; i < 35; i++) {
-particles.push({
-x: startX + (Math.random() - 0.5) * 40,
-y: startY,
-vx: (Math.random() - 0.5) * 1.5,
-vy: -Math.random() * 2.5 - 1.5,
-radius: Math.random() * 12 + 8,
-alpha: 0.8
-});
+document.getElementById('incense-smoke-container').classList.remove('hidden');
+document.getElementById('incense-status').innerText = "香火鼎盛";
+document.getElementById('incense-status').className = "text-sm font-bold text-red-400 animate-pulse";
+setMasterSpeech("「三柱清香燃起，褭褭煙霧上達天庭。黃大仙賜福信士平安吉祥！」");
 }
-setMasterSpeech("「赤松正殿三柱清香升起，上達天庭。黃大仙感應你的誠心，賜福保佑平安！」");
-}
-function updateParticles() {
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-for (let i = 0; i < particles.length; i++) {
-let p = particles[i];
-p.x += p.vx;
-p.y += p.vy;
-p.radius += 0.3;
-p.alpha -= 0.008;
-ctx.beginPath();
-ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-ctx.fillStyle = ⁠rgba(245, 245, 220, ${p.alpha})⁠;
-ctx.fill();
-if (p.alpha <= 0) {
-particles.splice(i, 1);
-i--;
-}
-}
-requestAnimationFrame(updateParticles);
-}
-updateParticles();
-function toggleOffering(type) {
+function offerFruitAction() {
 playChime();
-const el = document.getElementById(type === 'fruit' ? 'offering-fruit' : 'offering-ingot');
-el.classList.toggle('hidden');
-el.classList.toggle('flex');
-setMasterSpeech(⁠「誠心供奉${type === 'fruit' ? '吉利鮮果' : '金元寶'}！大仙感應，賜福積德，招財進寶！」⁠);
+fruitCount++;
+document.getElementById('fruit-count').innerText = ⁠鮮果 ${fruitCount} 份⁠;
+setMasterSpeech(⁠「信士誠心供奉吉利鮮果！大仙感應，賜予四季平安、諸事吉利！」⁠);
+}
+function offerIngotAction() {
+playChime();
+ingotCount++;
+document.getElementById('ingot-count').innerText = ⁠元寶 ${ingotCount} 份⁠;
+setMasterSpeech(⁠「信士誠心供奉金元寶！黃大仙大發慈悲，招財進寶、家業興旺！」⁠);
 }
 function touchGoldenStatue() {
 playChime();
-setMasterSpeech("「你誠心瞻仰黃大仙開懷金身聖像，金光護體，百病不侵，福氣綿綿！」");
+setMasterSpeech("「你誠心瞻仰黃大仙開懷金身聖像，金光護體，百病不侵，吉氣綿綿！」");
 }
 function tieRedThread() {
 playChime();
-setMasterSpeech("「三生石上舊精魂，月老尊神已為你牽上紅絲線，祝願良緣永結、情投意合！」");
+setMasterSpeech("「三生石上舊精魂，月老尊神已為你牽上紅絲線，祝願佳偶天成、合家美滿！」");
 }
 function setMasterSpeech(text) {
-document.getElementById('master-text').innerText = text;
+document.getElementById('master-speech').innerText = text;
 }
 function playWoodenFishSound() {
 if (!isSoundOn) return;
@@ -439,10 +368,10 @@ const input = document.getElementById('user-prayer-input');
 const prayerText = input.value.trim();
 if (!prayerText) return;
 playChime();
-setMasterSpeech("「神明正聆聽你的祈願，為你祈福...」");
+setMasterSpeech("「神明正聆聽你的心願祈求...」");
 input.value = "";
 try {
-const systemPrompt = "你現在扮演香港赤松黃大仙祠的神仙導師，語氣慈祥、玄妙、充滿傳統智慧。請用簡短兩至三句話回應信士的祈願並給予祝福。";
+const systemPrompt = "你現在扮演香港赤松黃大仙祠的神仙導師，語氣慈祥、玄妙、充滿傳統道教智慧。請用簡短兩至三句話回應信士的祈願並給予祝福。";
 const apiKey = "";
 const apiUrl = ⁠https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}⁠;
 const response = await fetch(apiUrl, {
@@ -459,7 +388,7 @@ if (reply) {
 setMasterSpeech(⁠「${reply}」⁠);
 saveRecordDirectly('心願祈福', prayerText, reply);
 } else {
-setMasterSpeech("「神明已聽取你的心願，只要誠心正道，必獲福報！」");
+setMasterSpeech("「神明已聽取你的心願，只要誠心正道，必獲大仙福報庇佑！」");
 }
 } catch (err) {
 setMasterSpeech("「誠心至感，神明已收到你的心願。諸惡莫作，眾善奉行！」");
@@ -477,6 +406,8 @@ playChime();
 document.getElementById('draw-modal').classList.remove('hidden');
 document.getElementById('lot-result-card').classList.add('hidden');
 document.getElementById('shake-btn').classList.remove('hidden');
+document.getElementById('shake-btn').disabled = false;
+document.getElementById('shake-btn').innerText = "誠心搖動籤筒";
 }
 function closeDrawModal() {
 document.getElementById('draw-modal').classList.add('hidden');
@@ -538,7 +469,7 @@ list.innerHTML = ⁠<p class="text-center text-yellow-200/50 py-6">暫無參拜�
 prayerRecords.forEach(r => {
 const card = document.createElement('div');
 card.className = "p-3 bg-black/60 border border-temple-gold/40 rounded-lg space-y-1 shadow";
-card.innerHTML = ⁠<div class="flex justify-between text-temple-gold font-bold"> <span>[${r.type}] ${r.title}</span> <span class="text-[10px] text-yellow-200/50">${r.date}</span> </div> <p class="text-yellow-100/80 text-xs">${r.detail}</p>⁠;
+card.innerHTML = ⁠<div class="flex justify-between text-temple-gold font-bold text-xs"> <span>[${r.type}] ${r.title}</span> <span class="text-[10px] text-yellow-200/50">${r.date}</span> </div> <p class="text-yellow-100/80 text-xs">${r.detail}</p>⁠;
 list.appendChild(card);
 });
 }
